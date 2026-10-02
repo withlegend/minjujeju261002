@@ -7,6 +7,7 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang&family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
 
+  html { scroll-behavior: smooth; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
@@ -97,7 +98,8 @@
     border: 1px solid #e2e8f0;
     transition: transform 0.2s;
   }
-  .ov-item:hover { transform: translateY(-2px); }
+  .ov-item:hover { transform: translateY(-2px); cursor: pointer; }
+  .ov-item a { text-decoration: none; color: inherit; display: block; }
   .ov-item .ov-day { font-size: 11px; font-weight: 700; color: #0077b6; margin-bottom: 4px; }
   .ov-item .ov-date { font-size: 10px; color: #94a3b8; margin-bottom: 6px; }
   .ov-item .ov-emoji { font-size: 22px; margin-bottom: 4px; }
@@ -325,48 +327,48 @@
   <div class="intro-card">
     공주님과 함께하는 제주도 여행 일정표예요.<br>
     우도도 가고, 맛있는 것도 먹고,<br>
-    느긋하게 즐기자! 🧡
+    자유롭게 다니자! 🧡
   </div>
 </div>
 
 <!-- 전체 일정 요약 -->
 <div class="overview">
   <div class="overview-grid">
-    <div class="ov-item">
+    <div class="ov-item"><a href="#day1">
       <div class="ov-day">DAY 1</div>
       <div class="ov-date">10/2 금</div>
       <div class="ov-emoji">✈️</div>
       <div class="ov-label">도착<br>+ 장보기</div>
-    </div>
-    <div class="ov-item">
+    </a></div>
+    <div class="ov-item"><a href="#day2">
       <div class="ov-day">DAY 2</div>
       <div class="ov-date">10/3 토</div>
       <div class="ov-emoji">🐚</div>
       <div class="ov-label">우도<br>관광</div>
-    </div>
-    <div class="ov-item">
+    </a></div>
+    <div class="ov-item"><a href="#day3">
       <div class="ov-day">DAY 3</div>
       <div class="ov-date">10/4 일</div>
       <div class="ov-emoji">🐴</div>
       <div class="ov-label">자유<br>여행</div>
-    </div>
-    <div class="ov-item">
+    </a></div>
+    <div class="ov-item"><a href="#day4">
       <div class="ov-day">DAY 4</div>
       <div class="ov-date">10/5 월</div>
       <div class="ov-emoji">🌴</div>
       <div class="ov-label">자유<br>여행</div>
-    </div>
-    <div class="ov-item">
+    </a></div>
+    <div class="ov-item"><a href="#day5">
       <div class="ov-day">DAY 5</div>
       <div class="ov-date">10/6 화</div>
       <div class="ov-emoji">🛫</div>
       <div class="ov-label">귀가</div>
-    </div>
+    </a></div>
   </div>
 </div>
 
 <!-- ==================== DAY 1 ==================== -->
-<div class="day-section day1">
+<div class="day-section day1" id="day1">
   <div class="day-header">
     <div class="day-badge">
       <span class="d-num">1</span>
@@ -423,7 +425,7 @@
 </div>
 
 <!-- ==================== DAY 2 ==================== -->
-<div class="day-section day2">
+<div class="day-section day2" id="day2">
   <div class="day-header">
     <div class="day-badge">
       <span class="d-num">2</span>
@@ -532,7 +534,7 @@
 </div>
 
 <!-- ==================== DAY 3 ==================== -->
-<div class="day-section day3">
+<div class="day-section day3" id="day3">
   <div class="day-header">
     <div class="day-badge">
       <span class="d-num">3</span>
@@ -567,7 +569,7 @@
 </div>
 
 <!-- ==================== DAY 4 ==================== -->
-<div class="day-section day4">
+<div class="day-section day4" id="day4">
   <div class="day-header">
     <div class="day-badge">
       <span class="d-num">4</span>
@@ -593,7 +595,7 @@
 </div>
 
 <!-- ==================== DAY 5 ==================== -->
-<div class="day-section day5">
+<div class="day-section day5" id="day5">
   <div class="day-header">
     <div class="day-badge">
       <span class="d-num">5</span>
