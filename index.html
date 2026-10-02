@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>제주 여행 계획</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang&family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: #f0f4f8;
+    color: #2d3748;
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+
+  /* 히어로 */
+  .hero {
+    background: linear-gradient(135deg, #0077b6 0%, #00b4d8 40%, #90e0ef 100%);
+    text-align: center;
+    padding: 52px 20px 44px;
+    position: relative;
+    overflow: hidden;
+    color: #fff;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 50%;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 0; right: 0;
+    height: 40px;
+    background: #f0f4f8;
+    border-radius: 50% 50% 0 0;
+  }
+  .hero-emoji { font-size: 44px; margin-bottom: 10px; }
+  .hero h1 {
+    font-family: 'Gowun Batang', serif;
+    font-size: 26px;
+    font-weight: 400;
+    margin-bottom: 6px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  .hero .dates {
+    font-size: 14px;
+    opacity: 0.9;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+  }
+
+  /* 인트로 카드 */
+  .intro {
+    max-width: 480px;
+    margin: 28px auto 0;
+    padding: 0 16px;
+  }
+  .intro-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 22px 20px;
+    box-shadow: 0 2px 20px rgba(0,119,182,0.08);
+    border: 1px solid #e0f2fe;
+    font-family: 'Gowun Batang', serif;
+    font-size: 14.5px;
+    line-height: 1.9;
+    color: #475569;
+    text-align: center;
+  }
+
+  /* 전체 일정 요약 */
+  .overview {
+    max-width: 480px;
+    margin: 24px auto 0;
+    padding: 0 16px;
+  }
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+  }
+  .ov-item {
+    background: #fff;
+    border-radius: 12px;
+    padding: 12px 6px;
+    text-align: center;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+    border: 1px solid #e2e8f0;
+    transition: transform 0.2s;
+  }
+  .ov-item:hover { transform: translateY(-2px); }
+  .ov-item .ov-day { font-size: 11px; font-weight: 700; color: #0077b6; margin-bottom: 4px; }
+  .ov-item .ov-date { font-size: 10px; color: #94a3b8; margin-bottom: 6px; }
+  .ov-item .ov-emoji { font-size: 22px; margin-bottom: 4px; }
+  .ov-item .ov-label { font-size: 10px; color: #475569; line-height: 1.4; }
+
+  /* 일자별 섹션 */
+  .day-section {
+    max-width: 480px;
+    margin: 28px auto 0;
+    padding: 0 16px;
+  }
+
+  .day-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .day-badge {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .day-badge .d-num { font-size: 20px; font-weight: 700; line-height: 1; }
+  .day-badge .d-label { font-size: 9px; font-weight: 500; margin-top: 2px; }
+  .day-header-info h2 { font-size: 17px; color: #1e293b; }
+  .day-header-info .weather {
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .day-theme {
+    background: #fff;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 1px 8px rgba(0,0,0,0.04);
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  /* 타임라인 */
+  .timeline { position: relative; padding-left: 28px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px; top: 8px; bottom: 8px;
+    width: 2px;
+    border-radius: 2px;
+  }
+  .tl-item {
+    position: relative;
+    margin-bottom: 10px;
+  }
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -24px; top: 10px;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    border: 2px solid;
+    background: #fff;
+    z-index: 1;
+  }
+  .tl-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 14px 16px;
+    box-shadow: 0 1px 8px rgba(0,0,0,0.04);
+    border: 1px solid #e2e8f0;
+  }
+  .tl-time {
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .tl-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1e293b;
+    margin-bottom: 2px;
+  }
+  .tl-desc {
+    font-size: 12.5px;
+    color: #64748b;
+    line-height: 1.6;
+  }
+  .tl-note {
+    margin-top: 6px;
+    font-size: 11.5px;
+    color: #94a3b8;
+    background: #f8fafc;
+    border-radius: 8px;
+    padding: 8px 10px;
+    line-height: 1.5;
+  }
+
+  /* Day 색상 테마 */
+  .day1 .day-badge { background: linear-gradient(135deg, #f97316, #fb923c); }
+  .day1 .day-theme { background: #fff7ed; color: #c2410c; border: 1px solid #fed7aa; }
+  .day1 .timeline::before { background: #fdba74; }
+  .day1 .tl-item::before { border-color: #f97316; }
+  .day1 .tl-time { color: #ea580c; }
+
+  .day2 .day-badge { background: linear-gradient(135deg, #0ea5e9, #38bdf8); }
+  .day2 .day-theme { background: #f0f9ff; color: #0369a1; border: 1px solid #bae6fd; }
+  .day2 .timeline::before { background: #7dd3fc; }
+  .day2 .tl-item::before { border-color: #0ea5e9; }
+  .day2 .tl-time { color: #0284c7; }
+
+  .day3 .day-badge { background: linear-gradient(135deg, #10b981, #34d399); }
+  .day3 .day-theme { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
+  .day3 .timeline::before { background: #6ee7b7; }
+  .day3 .tl-item::before { border-color: #10b981; }
+  .day3 .tl-time { color: #059669; }
+
+  .day4 .day-badge { background: linear-gradient(135deg, #8b5cf6, #a78bfa); }
+  .day4 .day-theme { background: #f5f3ff; color: #6d28d9; border: 1px solid #ddd6fe; }
+  .day4 .timeline::before { background: #c4b5fd; }
+  .day4 .tl-item::before { border-color: #8b5cf6; }
+  .day4 .tl-time { color: #7c3aed; }
+
+  .day5 .day-badge { background: linear-gradient(135deg, #ec4899, #f472b6); }
+  .day5 .day-theme { background: #fdf2f8; color: #be185d; border: 1px solid #fbcfe8; }
+  .day5 .timeline::before { background: #f9a8d4; }
+  .day5 .tl-item::before { border-color: #ec4899; }
+  .day5 .tl-time { color: #db2777; }
+
+  /* 메모 박스 */
+  .memo-box {
+    background: #fffbeb;
+    border-left: 4px solid #fbbf24;
+    border-radius: 0 12px 12px 0;
+    padding: 14px 16px;
+    margin-top: 12px;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #92400e;
+  }
+  .memo-box strong { color: #b45309; }
+
+  /* 자유 여행 카드 */
+  .free-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    border: 1px solid #e2e8f0;
+    margin-bottom: 12px;
+  }
+  .free-card h3 {
+    font-size: 14px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .free-card p, .free-card li {
+    font-size: 13px;
+    line-height: 1.7;
+    color: #475569;
+  }
+  .free-card ul { padding-left: 18px; margin-top: 6px; }
+  .free-card li { margin-bottom: 3px; }
+
+  /* 태그 */
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-right: 4px;
+    margin-bottom: 4px;
+  }
+  .tag-food { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+  .tag-spot { background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; }
+  .tag-tip { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+
+  /* 푸터 */
+  .footer {
+    text-align: center;
+    padding: 40px 20px 20px;
+    font-family: 'Gowun Batang', serif;
+    color: #0077b6;
+  }
+  .footer .heart {
+    font-size: 28px;
+    animation: pulse 1.5s infinite;
+  }
+  .footer p { margin-top: 8px; font-size: 14px; line-height: 1.8; color: #64748b; }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+  }
+
+  /* 반응형 */
+  @media (max-width: 400px) {
+    .overview-grid { grid-template-columns: repeat(3, 1fr); }
+    .hero h1 { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 히어로 -->
+<div class="hero">
+  <div class="hero-emoji">🍊🏝️</div>
+  <h1>우리의 제주 여행</h1>
+  <div class="dates">2026. 10. 2 (금) ~ 10. 6 (화) &nbsp;|&nbsp; 4박 5일</div>
+</div>
+
+<!-- 인트로 -->
+<div class="intro">
+  <div class="intro-card">
+    공주님과 함께하는 제주도 여행 일정표예요.<br>
+    우도도 가고, 맛있는 것도 먹고,<br>
+    느긋하게 즐기자! 🧡
+  </div>
+</div>
+
+<!-- 전체 일정 요약 -->
+<div class="overview">
+  <div class="overview-grid">
+    <div class="ov-item">
+      <div class="ov-day">DAY 1</div>
+      <div class="ov-date">10/2 금</div>
+      <div class="ov-emoji">✈️</div>
+      <div class="ov-label">도착<br>+ 장보기</div>
+    </div>
+    <div class="ov-item">
+      <div class="ov-day">DAY 2</div>
+      <div class="ov-date">10/3 토</div>
+      <div class="ov-emoji">🐚</div>
+      <div class="ov-label">우도<br>관광</div>
+    </div>
+    <div class="ov-item">
+      <div class="ov-day">DAY 3</div>
+      <div class="ov-date">10/4 일</div>
+      <div class="ov-emoji">🐴</div>
+      <div class="ov-label">자유<br>여행</div>
+    </div>
+    <div class="ov-item">
+      <div class="ov-day">DAY 4</div>
+      <div class="ov-date">10/5 월</div>
+      <div class="ov-emoji">🌴</div>
+      <div class="ov-label">자유<br>여행</div>
+    </div>
+    <div class="ov-item">
+      <div class="ov-day">DAY 5</div>
+      <div class="ov-date">10/6 화</div>
+      <div class="ov-emoji">🛫</div>
+      <div class="ov-label">귀가</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== DAY 1 ==================== -->
+<div class="day-section day1">
+  <div class="day-header">
+    <div class="day-badge">
+      <span class="d-num">1</span>
+      <span class="d-label">DAY</span>
+    </div>
+    <div class="day-header-info">
+      <h2>10월 2일 (금)</h2>
+      <div class="weather">☀️ 맑음 &nbsp;|&nbsp; 19~24도</div>
+    </div>
+  </div>
+
+  <div class="day-theme">🍊 제주 도착 + 장보기 + 휴식</div>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-time">오후 6:15</div>
+        <div class="tl-title">✈️ 비행기 탑승</div>
+        <div class="tl-desc">공주님 비행기 출발!</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-time">오후 7:30</div>
+        <div class="tl-title">🛬 제주 도착 !!</div>
+        <div class="tl-desc">드디어 제주도!</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-time">오후 7:45 ~ 8:30</div>
+        <div class="tl-title">🛒 제주시 이마트 & 다이소</div>
+        <div class="tl-desc">필요한 것들 쇼핑하기</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-time">오후 8:30 ~ 9:15</div>
+        <div class="tl-title">🚗 집으로 이동</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-time">오후 9:15~</div>
+        <div class="tl-title">🏠 내일 우도 갈 준비 + 휴식</div>
+        <div class="tl-desc">짐 정리하고 푹 쉬기 💕</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== DAY 2 ==================== -->
+<div class="day-section day2">
+  <div class="day-header">
+    <div class="day-badge">
+      <span class="d-num">2</span>
+      <span class="d-label">DAY</span>
+    </div>
+    <div class="day-header-info">
+      <h2>10월 3일 (토)</h2>
+      <div class="weather">🌤️ 맑음, 구름 조금 &nbsp;|&nbsp; 18~25도</div>
+    </div>
+  </div>
+
+  <div class="day-theme">🐚 우도 관광 + 비양도 차박</div>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-time">오전 7:00</div>
+        <div class="tl-title">⏰ 기상</div>
+        <div class="tl-desc">우도 가려면 일찍 일어나야 해요 ㅜㅜ</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-time">오전 7:45</div>
+        <div class="tl-title">🚗 성산항으로 출발</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-time">오전 9:00</div>
+        <div class="tl-title">⛴️ 성산항 도착 & 승선</div>
+        <div class="tl-note">
+          배편 안내<br>
+          첫 배 08:00 / 마지막 배 17:30<br>
+          매 30분마다 있어서 시간은 유동적으로!
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-time">오전 10:00</div>
+        <div class="tl-title">🏝️ 우도 도착!</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-time">오전 10:15</div>
+        <div class="tl-title">🍳 아침 겸 점심 : 풍원</div>
+        <div class="tl-desc">한라산볶음밥 & 흑돼지주물럭</div>
+        <span class="tag tag-food">맛집</span>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-time">오전 11:00</div>
+        <div class="tl-title">☕ 산호해수욕장 인근 카페</div>
+        <div class="tl-desc">바다 보면서 커피 한잔</div>
+        <span class="tag tag-spot">카페</span>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-time">오전 11:30</div>
+        <div class="tl-title">🏖️ 산호해수욕장 산책</div>
+        <div class="tl-desc">우도 대표 해변에서 여유롭게</div>
+        <span class="tag tag-spot">관광</span>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-time">낮 12:00</div>
+        <div class="tl-title">🍔 봉끄랑 : 문어버거</div>
+        <div class="tl-desc">배부르면 스킵해도 OK!</div>
+        <span class="tag tag-food">맛집</span>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-time">오후 1:30</div>
+        <div class="tl-title">🥜 아일랜드마켓</div>
+        <div class="tl-desc">우도 땅콩 굿즈 구경하기</div>
+        <span class="tag tag-spot">쇼핑</span>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-time">오후~</div>
+        <div class="tl-title">🌊 느낌대로 가자! 자유 여행</div>
+        <div class="tl-desc">계획 없는 게 계획이다 😎</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="memo-box">
+    💡 <strong>메모</strong> : 물 2L x 6개 사서 갈까?
+  </div>
+</div>
+
+<!-- ==================== DAY 3 ==================== -->
+<div class="day-section day3">
+  <div class="day-header">
+    <div class="day-badge">
+      <span class="d-num">3</span>
+      <span class="d-label">DAY</span>
+    </div>
+    <div class="day-header-info">
+      <h2>10월 4일 (일)</h2>
+      <div class="weather">☁️ 흐림 &nbsp;|&nbsp; 20~25도</div>
+    </div>
+  </div>
+
+  <div class="day-theme">🐴 우도 탈출 + 자유 여행</div>
+
+  <div class="free-card">
+    <h3>🍗 여행 중 꼭 먹을 것!</h3>
+    <ul>
+      <li><strong>치타치킨</strong> <span class="tag tag-food">웨이팅 필요</span></li>
+      <li><strong>각지불</strong> <span class="tag tag-food">웨이팅 필요</span></li>
+      <li><strong>한치</strong> <span class="tag tag-tip">추가 선호</span></li>
+    </ul>
+  </div>
+
+  <div class="free-card">
+    <h3>🐎 우선순위</h3>
+    <p><strong>경마장</strong> 꼭 가보기!</p>
+  </div>
+
+  <div class="free-card">
+    <h3>🗺️ 이 날은...</h3>
+    <p>자유 여행! 느낌 가는 대로 다니자 ㅎㅎ</p>
+  </div>
+</div>
+
+<!-- ==================== DAY 4 ==================== -->
+<div class="day-section day4">
+  <div class="day-header">
+    <div class="day-badge">
+      <span class="d-num">4</span>
+      <span class="d-label">DAY</span>
+    </div>
+    <div class="day-header-info">
+      <h2>10월 5일 (월)</h2>
+      <div class="weather">🌧️ 오전에 비 조금 &nbsp;|&nbsp; 17~24도</div>
+    </div>
+  </div>
+
+  <div class="day-theme">🌴 귀가 전날 — 마지막까지 알차게</div>
+
+  <div class="free-card">
+    <h3>💬 이 날도 자유 여행!</h3>
+    <p>만나서 계획 짜는 시간 조금만 더 줘 ㅎㅎㅎ<br>
+    사랑해..,,</p>
+  </div>
+
+  <div class="memo-box">
+    ☔ 오전에 비 예보가 있어요. 실내 일정을 오전에 넣으면 좋겠다!
+  </div>
+</div>
+
+<!-- ==================== DAY 5 ==================== -->
+<div class="day-section day5">
+  <div class="day-header">
+    <div class="day-badge">
+      <span class="d-num">5</span>
+      <span class="d-label">DAY</span>
+    </div>
+    <div class="day-header-info">
+      <h2>10월 6일 (화)</h2>
+      <div class="weather">⛅ 조금 흐림 &nbsp;|&nbsp; 18~23도</div>
+    </div>
+  </div>
+
+  <div class="day-theme">🛫 공주님 귀가</div>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-time">오전 8:30</div>
+        <div class="tl-title">⏰ 기상</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-time">오전 9:30</div>
+        <div class="tl-title">🚗 제주공항으로 출발</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-time">오전 10:15</div>
+        <div class="tl-title">🧳 공항 도착 & 대기</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-time">오전 10:55</div>
+        <div class="tl-title">✈️ 비행기 출발</div>
+        <div class="tl-desc">안녕 제주도... 다음에 또 올게!</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-time">낮 12:10</div>
+        <div class="tl-title">🛬 김포공항 도착</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-time">오후 1:00</div>
+        <div class="tl-title">🏠 집 또는 학교 도착</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-card">
+        <div class="tl-time">오후 2:00</div>
+        <div class="tl-title">📚 현대사회와 복지 수업</div>
+        <div class="tl-desc">다시 현실로... 화이팅!</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 푸터 -->
+<div class="footer">
+  <div class="heart">🍊</div>
+  <p>공주님과 함께라서 어디든 좋아요.<br>즐거운 제주 여행 되자!</p>
+  <p style="font-size:13px; margin-top:6px; color: #0077b6;">사랑해 ❤️</p>
+</div>
+
+</body>
+</html>
